@@ -1,0 +1,89 @@
+<template>
+    <div id="main">
+        <div id="title">共 享 快 件 物 流 服 务</div>
+        <div id="detail">
+            <div class="but">
+                <Lock style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <div class="butInner">{{userInfo.tenantName}}</div>  
+            </div>
+            <div class="but">
+                <Key style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <div class="butInner">{{userInfo.roleNames[0]}}</div>  
+            </div>
+            <div class="but">
+                <UserFilled style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <div class="butInner">{{userInfo.userName}}</div>  
+            </div>
+            <div class="but">
+                <SwitchButton style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <div class="butInner">退出logout</div>  
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { Lock,UserFilled,Key,SwitchButton} from '@element-plus/icons-vue';
+import { getCurrentInstance,ref,onMounted } from 'vue';
+const instance = getCurrentInstance()
+const userInfo  = ref({
+    tenantName:"",
+    roleNames:[],
+    username:""
+})
+onMounted(() => {
+    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/userinfo")
+    .then((res)=>{
+        if(res.data.code == 0){
+            userInfo.value = res.data.data;
+        }
+        else{
+            ElMessage.error(res.data.msg)
+        }
+    })
+    .catch(()=>{
+        ElMessage.error("服务器访问错误")
+    })
+})
+</script>
+
+<style scoped>
+#main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1E54C1;
+}
+#title{
+    min-width: 300px;
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 600;
+    color: #D4D7DE;
+}
+#detail{
+    display: flex;
+    color: #D4D7DE;
+    height: 70%;
+}
+.but{
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    max-width: 130px;
+    margin-left: 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    position:relative;
+    top:5px
+}
+.butInner{
+    width: 80%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+</style>
