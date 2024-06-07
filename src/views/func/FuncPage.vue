@@ -6,11 +6,11 @@
             <div class="buttonDiv"><RemoveButton/></div>
             <div class="buttonDiv"><el-button :icon="Refresh" round>刷新</el-button></div>
         </div>
-        <div id="table">
+        <!-- <div id="table">
             <el-table>
 
             </el-table>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -23,9 +23,9 @@ import { onMounted,ref } from 'vue';
 
 const allFunctions = ref([])
 
-onMounted(()=>{
-    allFunctions
-})
+// onMounted(()=>{
+//     allFunctions
+// })
 
 </script>
 
