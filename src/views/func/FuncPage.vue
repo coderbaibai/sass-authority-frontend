@@ -6,6 +6,11 @@
             <div class="buttonDiv"><RemoveButton/></div>
             <div class="buttonDiv"><el-button :icon="Refresh" round>刷新</el-button></div>
         </div>
+        <div id="table">
+            <el-table>
+
+            </el-table>
+        </div>
     </div>
 </template>
 
@@ -14,8 +19,13 @@ import { Refresh } from '@element-plus/icons-vue';
 import AddButton from './AddButton.vue'
 import EditButton from './EditButton.vue'
 import RemoveButton from './RemoveButton.vue'
+import { onMounted,ref } from 'vue';
 
+const allFunctions = ref([])
 
+onMounted(()=>{
+    allFunctions
+})
 
 </script>
 
@@ -35,5 +45,9 @@ import RemoveButton from './RemoveButton.vue'
     height: 100%;
     margin-right: 15px;
     display: flex;
+}
+#table{
+    height: 95%;
+    width: 100%;
 }
 </style>

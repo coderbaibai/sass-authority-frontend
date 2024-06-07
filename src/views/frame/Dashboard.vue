@@ -5,7 +5,6 @@
         </div>
         <div id="mainWindow">
             <div id="navigate">
-                <!-- <Navigate @navi="naviFunc" /> -->
                 <Navigation @navi="naviFunc"/>
             </div>
             <div id="pageWindow" v-if="curPages.length!=0">
@@ -34,7 +33,6 @@
 
 <script setup lang="ts">
 import Header from './Header.vue'
-// import Navigate from './Navigate.vue'
 import Navigation from './Navigation.vue'
 import { getCurrentInstance,ref,watch} from 'vue';
 import { useCookies } from "vue3-cookies";
