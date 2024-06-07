@@ -5,7 +5,8 @@
         </div>
         <div id="mainWindow">
             <div id="navigate">
-                <Navigate @navi="naviFunc" />
+                <!-- <Navigate @navi="naviFunc" /> -->
+                <Navigation @navi="naviFunc"/>
             </div>
             <div id="pageWindow" v-if="curPages.length!=0">
                 <el-tabs
@@ -16,11 +17,10 @@
                     @tab-remove="handleTabsRemove"
                 >
                     <el-tab-pane
-                    class="panes"
                     v-for="(val,index) in curPages"
                         :key="index"
                         :label="val.name"
-                        :name="val.gindex"
+                        :name="val.id"
                     >
                     <div class="innerPanes">
                         <RouterView></RouterView>
@@ -34,7 +34,8 @@
 
 <script setup lang="ts">
 import Header from './Header.vue'
-import Navigate from './Navigate.vue'
+// import Navigate from './Navigate.vue'
+import Navigation from './Navigation.vue'
 import { getCurrentInstance,ref,watch} from 'vue';
 import { useCookies } from "vue3-cookies";
 const { cookies } = useCookies();
@@ -52,7 +53,6 @@ instance.appContext.config.globalProperties.$router.options.routes[dashboardInde
     AllPages.value.push({
         name: val.cname,
         path: val.path,
-        gindex: index,
     })
 })
 
@@ -68,37 +68,30 @@ AllPages.value.forEach(element => {
     }
 });
 
-const naviFunc = (targetPath)=>{
-    let isSuccess = false;
+const naviFunc = (targetPath,id,name)=>{
     try{
-        AllPages.value.forEach((val,index)=>{
-            // 如果存在这个路径
-            if(val.path == targetPath){
-                curPages.value.forEach((cVal,cIndex)=>{
-                    // 如果在当前页面
-                    if(cVal.path == targetPath){
-                        curIndex.value = cVal.gindex
-                        throw new Error("find");
-                    }
-                })
-                // 如果不在当前页面
-               curPages.value.push(val)
-               curIndex.value = val.gindex
-               isSuccess = true;
-            }
-        })
-        if(isSuccess) return;
-        // 不存在这个路径，导航到ErrorPage
         curPages.value.forEach((cVal,cIndex)=>{
             // 如果在当前页面
-            if(cVal.path =="/error"){
-                curIndex.value = cVal.gindex
+            if(cVal.id == id){
+                curIndex.value = cVal.id
                 throw new Error("find");
             }
         })
-        // 如果不在当前页面
-        curPages.value.push(errorPage.value)
-        curIndex.value = errorPage.value.gindex
+       // 如果不在当前页面
+        let target = errorPage.value;
+
+        AllPages.value.forEach((val,index)=>{
+            // 如果存在这个路径
+            if(val.path == targetPath){
+                target = val;
+            }
+        })
+        // 不存在这个路径，导航到ErrorPage
+        let temp = JSON.parse(JSON.stringify(target));
+        temp.name = name
+        temp.id = id
+        curPages.value.push(temp)
+        curIndex.value = temp.id
     }catch(e){
         console.log(e)
     }
@@ -107,9 +100,9 @@ const naviFunc = (targetPath)=>{
 const handleTabsRemove =(index)=>{
     try{
         curPages.value.forEach((val,ind)=>{
-            if(val.gindex == index){
+            if(val.id == index){
                 curPages.value.splice(ind,1)
-                curIndex.value = curPages.value[ind<=curPages.value.length-1?ind:curPages.value.length-1].gindex
+                curIndex.value = curPages.value[ind<=curPages.value.length-1?ind:curPages.value.length-1].id
                 throw new Error("close")
             }
         })
@@ -121,7 +114,7 @@ const handleTabsRemove =(index)=>{
 watch(curIndex ,(newVal,oldVal)=>{
     try{
         curPages.value.forEach((val,index)=>{
-            if(val.gindex==curIndex.value){
+            if(val.id==curIndex.value){
                 instance?.appContext.config.globalProperties.$router.push(val.path)
                 throw new Error("route")
             }
@@ -152,12 +145,10 @@ watch(curIndex ,(newVal,oldVal)=>{
 #navigate{
     height: 100%;
     width: 12%;
-    margin-left: 10px;
 }
 #pageWindow{
     height: 100%;
     flex-grow: 1;
-    padding-top: 10px;
     position: relative;
 }
 #tabs{
@@ -168,5 +159,6 @@ watch(curIndex ,(newVal,oldVal)=>{
     position: fixed;
     width: 85%;
     height: 88%;
+    overflow-y: scroll;
 }
 </style>

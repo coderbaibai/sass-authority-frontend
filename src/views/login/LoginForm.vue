@@ -11,7 +11,7 @@
         </div>
         <div class="innerDiv">
             <div class="pre">用户名username：</div>
-            <el-input size="large" placeholder="请输入用户名" v-model="info.username"></el-input>
+            <el-input size="large" placeholder="请输入用户名" v-model="info.userName"></el-input>
         </div>
         <div class="innerDiv">
             <div class="pre">密码password：</div>
@@ -27,7 +27,7 @@ import { ElMessage } from "element-plus";
 import { onMounted,getCurrentInstance,ref,reactive} from "vue";
 const info = reactive({
     tenantId:null,
-    username:"",
+    userName:"",
     password:"",
 })
 const instance = getCurrentInstance();
@@ -38,7 +38,7 @@ const loginFunc = ()=>{
         ElMessage.error("请选择租户")
         return
     }
-    if(info.username===""){
+    if(info.userName===""){
         ElMessage.error("请填写用户名")
         return
     }

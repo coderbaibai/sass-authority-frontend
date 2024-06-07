@@ -1,38 +1,45 @@
 <template>
     <div id="main">
         <el-menu :default-openeds="[0,1,2,3,4,5,6]" background-color="#FAFAFA" style="overflow-x: hidden;">
-            <el-sub-menu v-for="(pvalue,pindex) in allItems" :index="pindex">
-                <template #title>
-                    <span>{{pvalue.node}}</span>
-                </template>
-                <el-menu-item v-for="(cvalue,cindex) in pvalue.children" 
-                    :index="''+pindex+cindex"
-                    @click="handleSelect(pindex,cindex)"
-                >
-                    {{cvalue.leafname}}
-                </el-menu-item>
-            </el-sub-menu>
+            <MenuItem v-for="(val,index) in allItems" :key="index" :item="val" @select="onSelect">
+            </MenuItem>
         </el-menu>
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted,getCurrentInstance,ref } from 'vue';
+import MenuItem from './MenuItem.vue';
 const instance = getCurrentInstance()
 const allItems = ref([])
-const curParentIndex = ref(0)
-const curChildIndex = ref(0)
 
 const emit = defineEmits(['navi'])
 
-const handleOpen = (index)=>{
-    curParentIndex.value = index;
+let getObjById = (objArray,id)=>{
+    let res = null
+    let temp = null
+    try{
+        objArray.forEach((val,index)=>{
+            if(val.id == id){
+                res = val
+                throw new Error("find")
+            }
+            if(val.children.length!=0){
+                temp = getObjById(val.children,id)
+                if(temp) {
+                    res = temp
+                    throw new Error("find")
+                }
+            }
+        })
+    }catch(e){
+        return res
+    }
 }
 
-const handleSelect = (pindex,cindex)=>{
-    curParentIndex.value = pindex
-    curChildIndex.value = cindex;
-    emit("navi",allItems.value[pindex].children[cindex].uri)
+const onSelect = (id)=>{
+    let target = getObjById(allItems.value,id)
+    emit('navi',target.uri,target.id,target.name)
 }
 
 onMounted(() => {
