@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <el-menu :default-openeds="[0,1,2,3,4,5,6]" background-color="#FAFAFA">
+        <el-menu :default-openeds="[0,1,2,3,4,5,6]" background-color="#FAFAFA" style="overflow-x: hidden;">
             <el-sub-menu v-for="(pvalue,pindex) in allItems" :index="pindex">
                 <template #title>
                     <span>{{pvalue.node}}</span>

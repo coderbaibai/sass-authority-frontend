@@ -13,7 +13,27 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       cname: '主界面',
-      component: () => import('../views/frame/Dashboard.vue')
+      component: () => import('../views/frame/Dashboard.vue'),
+      children:[
+        {
+          path: '/tenant',
+          name: 'tenant',
+          cname: '租户管理',
+          component: () => import('../views/tenant/TenantPage.vue'),
+        },
+        {
+          path: '/func',
+          name: 'func',
+          cname: '功能管理',
+          component: () => import('../views/func/FuncPage.vue'),
+        },
+        {
+          path: '/error',
+          name: 'error',
+          cname: '错误页面',
+          component: () => import('../views/default/ErrorPage.vue'),
+        }
+      ]
     }
   ]
 })
