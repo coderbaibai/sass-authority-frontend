@@ -16,7 +16,7 @@
             </div>
             <div class="but">
                 <SwitchButton style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
-                <div class="butInner">退出logout</div>  
+                <div class="butInner" @click="handleExit()">退出logout</div>  
             </div>
         </div>
     </div>
@@ -45,6 +45,21 @@ onMounted(() => {
         ElMessage.error("服务器访问错误")
     })
 })
+const handleExit = ()=>{
+    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/logout")
+    .then((res)=>{
+        if(res.data.code == 0){
+            instance.appContext.config.globalProperties.$cookies.remove("SESSION")
+            instance.appContext.config.globalProperties.$router.push('/login')
+        }
+        else{
+            ElMessage.error(res.data.msg)
+        }
+    })
+    .catch(()=>{
+        ElMessage.error("服务器访问错误")
+    })
+}
 </script>
 
 <style scoped>
