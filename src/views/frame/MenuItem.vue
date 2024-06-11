@@ -19,6 +19,8 @@
 
 <script setup lang="ts">
 
+import { ElMessage } from 'element-plus';
+
 const emit = defineEmits(['select'])
 
 const handleSelect = (id)=>{

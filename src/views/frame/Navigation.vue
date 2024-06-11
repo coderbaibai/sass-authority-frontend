@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { onMounted,getCurrentInstance,ref } from 'vue';
 import MenuItem from './MenuItem.vue';
+import { ElMessage } from 'element-plus';
 const instance = getCurrentInstance()
 const allItems = ref([])
 
@@ -39,7 +40,7 @@ let getObjById = (objArray,id)=>{
 
 const onSelect = (id)=>{
     let target = getObjById(allItems.value,id)
-    emit('navi',target.uri,target.id,target.name)
+    emit('navi',target.url,target.id,target.name)
 }
 
 onMounted(() => {
