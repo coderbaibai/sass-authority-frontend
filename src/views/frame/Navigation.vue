@@ -63,6 +63,7 @@ onMounted(() => {
 #main{
     height: 100%;
     position: relative;
-    overflow-y: scroll;
+    overflow-y: auto;
+    background-color: #fff;
 }
 </style>
