@@ -18,13 +18,13 @@ export default {
                 return;
             }
             try {
-                const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/business', {
+                const res = await this.$test.get("/m1/4595220-4244770-default/tenant/business", {
                     params: {
                         tenantId: this.tenant.id
                     }
                 });
-                if (response.data.code === 0) {
-                    if (response.data.data) {
+                if (res.data.code === 0) {
+                    if (res.data.data) {
                         this.$message({
                             type: 'error',
                             message: '该租户有业务数据，无法删除'
@@ -40,13 +40,13 @@ export default {
             }
         },
         async deleteTenant() {
-            try {
-                const response = await axios.delete('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/delete/1', {
-                    params: {
-                        tenantId: this.tenant.id
-                    }
-                });
-                if (response.data.code === 0) {
+            this.$test.delete("/m1/4595220-4244770-default/tenant/delete", {
+                params: {
+                    tenantId: this.tenant.id
+                }
+            })
+            .then((res) => {
+                if (res.data.code === 0) {
                     this.$message({
                         type: 'success',
                         message: '删除成功'
@@ -54,9 +54,10 @@ export default {
                 } else {
                     this.$message.error('删除失败，请重试');
                 }
-            } catch (error) {
+            })
+            .catch((error) => {
                 this.$message.error('删除出错，请重试');
-            }
+            });
         }
     }
 };

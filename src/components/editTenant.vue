@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-form-item>
-        <el-button type="primary" @click="openEdit" :disabled="!tenant">修改</el-button>
+          <el-button type="primary" @click="openEdit" :disabled="!tenant">修改</el-button>
       </el-form-item>
       <el-dialog v-model="editDialogVisible" title="修改租户信息">
         <el-form :model="editTenantData">
@@ -121,25 +121,25 @@ export default {
             };
         },
         async editTenantSave() {
-            try {
-                const response = await axios.put(`http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/update`, this.editTenantData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (response.data.code == 0) {
+            this.$test.put("/m1/4595220-4244770-default/tenant/update", this.editTenantData, {
+                headers: {
+                'Content-Type': 'application/json'
+            }})
+            .then((res) => {
+                if (res.data.code === 0) {
                     this.$message({
-                    type: 'success',
-                    message: '修改成功'
-                });
-                this.editDialogVisible = false;
-                this.clear();
+                        type: 'success',
+                        message: '修改成功'
+                    });
+                        this.editDialogVisible = false;
+                        this.clear();
                 } else {
                     this.$message.error('修改失败');
                 }
-            } catch (error) {
+            })
+            .catch((error) => {
                 this.$message.error('修改出错，请重试');
-            }
+            });
         }
     }
 };

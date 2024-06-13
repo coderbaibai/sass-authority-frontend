@@ -23,7 +23,7 @@ import authoTenant from "../../components/authoTenant.vue";
 import deleteTenant from "../../components/deleteTenant.vue";
 import initTenant from "../../components/initTenant.vue";
 import tenantList from "../../components/tenantList.vue";
-  
+
 export default {
     data() {
         return {
@@ -40,21 +40,19 @@ export default {
         initTenant,
         tenantList
     },
-    mounted() {
-        this.getAllTenants();
-    },
     methods: {
-        async getAllTenants() {
-            try {
-                const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/all');
-                if (response.data.code === 0) {
-                    this.tenants = response.data.data;
+        getAllTenants() {
+            this.$test.get("/m1/4595220-4244770-default/tenant/all")
+            .then((res) => {
+                if (res.data.code === 0) {
+                    this.tenants = res.data.data;
                 } else {
-                    console.error('读取失败', response.data.msg);
+                    console.error('读取失败', res.data.msg);
                 }
-              } catch (error) {
-                  console.error('无法读取', error);
-              }
+            })
+            .catch((error) => {
+                console.error('无法读取', error);
+            });
         },
         handleSearchResults(results) {
             this.tenants = results;
@@ -62,6 +60,9 @@ export default {
         setSelectedTenant(tenant) {
             this.selectedTenant = tenant;
         }
+    },
+    mounted() {
+        this.getAllTenants();
     }
 };
 </script>

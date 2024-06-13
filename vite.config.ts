@@ -19,6 +19,7 @@ export default defineConfig({
 		proxy: {
 			'/api':{
 				target:"http://localhost:50100",
+        // target:"http://10.236.158.11:8081",
         changeOrigin:true, //支持跨域
         rewrite:(path) => path.replace(/^\/api/, "")//重写路径,替换/api
 			},
@@ -30,3 +31,4 @@ export default defineConfig({
 		}
 	}
 })
+

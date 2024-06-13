@@ -5,30 +5,30 @@
 	<el-dialog v-model="authoDialogVisible" title="租户功能授权">
 		<div class="authoTenantData">
 			<el-row :gutter="20">
-				<el-col :span="12">
-					<el-card class="allFunction">
-					<span>功能列表</span>
-					<el-tree
-							ref="functionTree"
-							:data="functionList"
-							:props="defaultProps"
-							show-checkbox
-							node-key="id"
-							@check-change="handleCheckChange"
-							:default-checked-keys="authorizedFunctionIds">
-					</el-tree>
-					</el-card>
-				</el-col>
-				<el-col :span="12">
-					<el-card class="authorizedFunction">
-					<span>已授权功能</span>
-					<el-tree
-						:data="authorizedFunctions"
-						:props="defaultProps"
-						node-key="id">
-					</el-tree>
-					</el-card>
-				</el-col>
+			<el-col :span="12">
+				<el-card class="allFunction">
+				<span>功能列表</span>
+				<el-tree
+					ref="functionTree"
+					:data="functionList"
+					:props="defaultProps"
+					show-checkbox
+					node-key="id"
+					@check-change="handleCheckChange"
+					:default-checked-keys="authorizedFunctionIds">
+				</el-tree>
+				</el-card>
+			</el-col>
+			<el-col :span="12">
+				<el-card class="authorizedFunction">
+				<span>已授权功能</span>
+				<el-tree
+					:data="authorizedFunctions"
+					:props="defaultProps"
+					node-key="id">
+				</el-tree>
+				</el-card>
+			</el-col>
 			</el-row>
 			<div slot="footer" class="dialog-footer">
 			<el-button @click="clear">清空</el-button>
@@ -36,28 +36,28 @@
 			</div>
 		</div>
 	</el-dialog>
-  </template>
+</template>
   
- <script>
+<script>
 import axios from 'axios';
-  
+
 export default {
 	props: {
-	  tenant: {
-		type: Object,
-		required: false
-	  }
+		tenant: {
+			type: Object,
+			required: false
+		}
 	},
 	data() {
-	  return {
-		authoDialogVisible: false,
-		functionList: [	],
-		authorizedFunctions: [],
-		defaultProps: {
-		  children: 'children',
-		  label: 'name'
-		}
-	  };
+		return {
+			authoDialogVisible: false,
+			functionList: [],
+			authorizedFunctions: [],
+			defaultProps: {
+				children: 'children',
+				label: 'name'
+			}
+		};
 	},
 	watch: {
 		tenant: {
@@ -81,19 +81,20 @@ export default {
 			} else {
 				this.$message.error('请先选择一个租户');
 			}
-	  	},
+		},
 		clear() {
 			this.authorizedFunctions = [];
 			this.$refs.functionTree.setCheckedKeys([]);
 		},
 		async loadAllFunctions() {
 			try {
-				const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/function/all');
-					if (response.data.code === 0) {
-					this.functionList = response.data.data;
-				} else {
-					this.$message.error('加载全部功能失败');
-				}
+				const res = await this.$test.get('/m1/4595220-4244770-default/function/all');
+			if (res.data.code === 0) {
+				this.functionList = res.data.data;
+				await this.loadAuthorizedFunctions();
+			} else {
+				this.$message.error('加载全部功能失败');
+			}
 			} catch (error) {
 				console.error('加载全部功能出错:', error);
 				this.$message.error('加载全部功能出错，请重试');
@@ -102,9 +103,12 @@ export default {
 		async loadAuthorizedFunctions() {
 			if (!this.tenant) return;
 			try {
-				const response = await axios.get(`http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/functions`);
-				if (response.data.code === 0) {
-					this.authorizedFunctions = response.data.data;
+				const res = await this.$test.get('/m1/4595220-4244770-default/tenant/functions', {
+					params: {
+						tenantId: this.tenant.id
+				}})
+				if (res.data.code === 0) {
+					this.authorizedFunctions = res.data.data;
 				} else {
 					this.$message.error('加载已授权功能失败');
 				}
@@ -125,9 +129,9 @@ export default {
 		},
 		handleCheckChange(node, checked) {
 			if (checked) {
-				this.addAuthorizedFunction(node);
+			this.addAuthorizedFunction(node);
 			} else {
-				this.removeAuthorizedFunction(node);
+			this.removeAuthorizedFunction(node);
 			}
 		},
 		addAuthorizedFunction(node) {
@@ -138,14 +142,14 @@ export default {
 		},
 		async saveAutho() {
 			try {
-				const response = await axios.post(`http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/function/distribute`, {
+				const res = await this.$test.post('/m1/4595220-4244770-default/tenant/function/distribute', {
 					tenantId: this.tenant.id,
 					functions: this.authorizedFunctions
 				});
-				if (response.data.code === 0) {
+				if (res.data.code === 0) {
 					this.$message({
-						type: 'success',
-						message: '授权成功'
+					type: 'success',
+					message: '授权成功'
 					});
 					this.$emit('tenant-authoed');
 					this.authoDialogVisible = false;

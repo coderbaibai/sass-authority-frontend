@@ -7,8 +7,8 @@
             <el-form-item label="状态">
                 <el-select v-model="state" placeholder="请选择状态" style="width: 200px;">
                     <el-option label="全部" value=""></el-option>
-                    <el-option label="启用" value="enabled"></el-option>
-                    <el-option label="禁用" value="disabled"></el-option>
+                    <el-option label="启用" value="1"></el-option>
+                    <el-option label="禁用" value="0"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -24,7 +24,8 @@ export default {
     data() {
         return {
             name: '',
-            state: ''
+            state: '',
+            tenants: []
         };
     },
     methods: {
@@ -38,6 +39,7 @@ export default {
                     }
                 });
                 console.log(response.data)
+                this.tenants = response.data.data;
                 this.$emit('search-results', response.data.data);
             } catch (error) {
                 console.error('Failed', error);

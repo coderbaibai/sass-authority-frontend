@@ -98,30 +98,29 @@ export default {
 			};
 		},
 		async addTenant() {
-			try {
-				const tenantData = JSON.parse(JSON.stringify(this.newTenant));
-				const response = await axios.post('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/add', tenantData, {
+			const tenantData = JSON.parse(JSON.stringify(this.newTenant));
+			this.$test.post("/m1/4595220-4244770-default/tenant/add", tenantData, {
 				headers: {
-					'Content-Type': 'application/json'
-				}
-				});
-				if (response.data.code==0) {
+				'Content-Type': 'application/json'
+			}})
+			.then((res) => {
+				if (res.data.code === 0) {
 					this.$message({
 						type: 'success',
 						message: '添加成功'
 					});
-					this.$emit('tenant-added');
 					this.addDialogVisible = false;
 					this.clear();
 				} else {
 					this.$message.error('添加失败');
 				}
-			} catch (error) {
+			})
+			.catch((error) => {
 				console.error('添加出错:', error);
 				this.$message.error('添加出错，请重试');
-			}
+			});
 		}
-    }
+	}
 }
 </script>
 

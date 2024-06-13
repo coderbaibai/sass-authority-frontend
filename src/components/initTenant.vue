@@ -51,27 +51,27 @@ export default {
             };
         },
         async initTenantSave() {
-            try {
-            const tenantData = JSON.parse(JSON.stringify(this.initTenant));
-            const response = await axios.post('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/initialize', tenantData, {
-                headers: {
-                'Content-Type': 'application/json'
-                }
-            });
-            if (response.data.code == 0) {
-                this.$message({
-                    type: 'success',
-                    message: '初始化成功'
-                });
-                this.initDialogVisible = false;
-                this.clear();
-            } else {
-                this.$message.error('初始化失败');
-            }
-            } catch (error) {
-            this.$message.error('初始化出错，请重试');
-            }
-        }
+			const tenantData = JSON.parse(JSON.stringify(this.initTenant));
+			this.$test.post("/m1/4595220-4244770-default/tenant/initialize", tenantData, {
+				headers: {
+				'Content-Type': 'application/json'
+			}})
+			.then((res) => {
+				if (res.data.code === 0) {
+					this.$message({
+						type: 'success',
+						message: '初始化成功'
+					});
+					this.initDialogVisible = false;
+					this.clear();
+				} else {
+					this.$message.error('初始化失败');
+				}
+			})
+			.catch((error) => {
+				this.$message.error('初始化出错，请重试');
+			});
+		}
     }
 };
   </script>
