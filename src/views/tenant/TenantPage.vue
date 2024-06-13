@@ -46,7 +46,8 @@ export default {
     methods: {
         async getAllTenants() {
             try {
-                const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/all');
+                // const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/all');
+                const response = await axios.get('http://localhost:8081/tenant/all');
                 if (response.data.code === 0) {
                     this.tenants = response.data.data;
                 } else {

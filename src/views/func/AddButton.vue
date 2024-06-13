@@ -123,7 +123,8 @@ const onSave = ()=>{
         return
     }
     newFunc.value.parentId = newFunc.value.parentId[newFunc.value.parentId.length-1]
-    instance.appContext.config.globalProperties.$test.post("/m1/4595220-0-default/function/add",newFunc.value)
+    // instance.appContext.config.globalProperties.$test.post("/m1/4595220-0-default/function/add",newFunc.value)
+    instance.appContext.config.globalProperties.$http.post("/function/add",newFunc.value)
     .then((res)=>{
         if(res.data.code == 0){
             isOpen.value = false;
