@@ -44,7 +44,8 @@ const onSelect = (id)=>{
 }
 
 onMounted(() => {
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/navigation")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/navigation")
+    instance.appContext.config.globalProperties.$http.get("/navigation")
     .then((res)=>{
         if(res.data.code == 0){
             allItems.value = res.data.data;

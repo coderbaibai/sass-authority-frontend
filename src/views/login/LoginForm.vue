@@ -46,7 +46,8 @@ const loginFunc = ()=>{
         ElMessage.error("请填写密码")
         return
     }
-    instance.appContext.config.globalProperties.$test.post("/m1/4595220-0-default/login",info)
+    // instance.appContext.config.globalProperties.$test.post("/m1/4595220-0-default/login",info)
+    instance.appContext.config.globalProperties.$http.post("/login",info)
     .then((res)=>{
         if(res.data.code == 0){
             instance.appContext.config.globalProperties.$router.push("/dashboard");
@@ -61,7 +62,8 @@ const loginFunc = ()=>{
 }
 
 onMounted(()=>{
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/tenants")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/tenants")
+    instance.appContext.config.globalProperties.$http.get("/tenants")
     .then((res)=>{
         if(res.data.code == 0){
             tenants.value = res.data.data;

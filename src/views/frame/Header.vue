@@ -32,7 +32,8 @@ const userInfo  = ref({
     username:""
 })
 onMounted(() => {
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/userinfo")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/userinfo")
+    instance.appContext.config.globalProperties.$http.get("/userinfo")
     .then((res)=>{
         if(res.data.code == 0){
             userInfo.value = res.data.data;
@@ -46,7 +47,8 @@ onMounted(() => {
     })
 })
 const handleExit = ()=>{
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/logout")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/logout")
+    instance.appContext.config.globalProperties.$http.get("/logout")
     .then((res)=>{
         if(res.data.code == 0){
             instance.appContext.config.globalProperties.$cookies.remove("SESSION")

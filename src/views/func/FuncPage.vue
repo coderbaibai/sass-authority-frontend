@@ -112,7 +112,8 @@ const curFunc = ref({})
 const instance = getCurrentInstance()
 
 const getAllFunctions = ()=>{
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/function/all")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/function/all")
+    instance.appContext.config.globalProperties.$http.get("/function/all")
     .then((res)=>{
         if(res.data.code == 0){
             allFunctions.value = res.data.data;
@@ -133,7 +134,8 @@ const getAllFunctions = ()=>{
 }
 
 onMounted(()=>{
-    instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/service/refer")
+    // instance.appContext.config.globalProperties.$test.get("/m1/4595220-0-default/service/refer")
+    instance.appContext.config.globalProperties.$http.get("/service/refer")
     .then((res)=>{
         if(res.data.code == 0){
             allServices.value = res.data.data;
@@ -201,7 +203,8 @@ const onSave = ()=>{
         return
     }
     curFunc.value.parentId = curFunc.value.parentId[curFunc.value.parentId.length-1]
-    instance.appContext.config.globalProperties.$test.put("/m1/4595220-0-default/function/update",curFunc.value)
+    // instance.appContext.config.globalProperties.$test.put("/m1/4595220-0-default/function/update",curFunc.value)
+    instance.appContext.config.globalProperties.$http.put("/function/update",curFunc.value)
     .then((res)=>{
         if(res.data.code == 0){
             isOpen.value = false;
@@ -217,7 +220,8 @@ const onSave = ()=>{
 }
 
 const handleRemove = (target)=>{
-    instance.appContext.config.globalProperties.$test.delete(`/m1/4595220-0-default/function/delete/`+target.id)
+    // instance.appContext.config.globalProperties.$test.delete(`/m1/4595220-0-default/function/delete/`+target.id)
+    instance.appContext.config.globalProperties.$http.delete(`/function/delete/`+target.id)
     .then((res)=>{
         if(res.data.code == 0){
             getAllFunctions()
