@@ -88,7 +88,8 @@ export default {
 		},
 		async loadAllFunctions() {
 			try {
-				const res = await this.$test.get('/m1/4595220-4244770-default/function/all');
+				// const res = await this.$test.get('/m1/4595220-4244770-default/function/all');
+				const res = await this.$http.get('/function/all');
 			if (res.data.code === 0) {
 				this.functionList = res.data.data;
 				await this.loadAuthorizedFunctions();
@@ -103,7 +104,8 @@ export default {
 		async loadAuthorizedFunctions() {
 			if (!this.tenant) return;
 			try {
-				const res = await this.$test.get('/m1/4595220-4244770-default/tenant/functions', {
+				// const res = await this.$test.get('/m1/4595220-4244770-default/tenant/functions', {
+				const res = await this.$http.get('/tenant/functions', {
 					params: {
 						tenantId: this.tenant.id
 				}})
@@ -117,6 +119,7 @@ export default {
 				this.$message.error('加载已授权功能出错，请重试');
 			}
 		},
+	
 		getAuthorizedFunctionIds(functions) {
 			let ids = [];
 			functions.forEach(func => {
@@ -142,7 +145,8 @@ export default {
 		},
 		async saveAutho() {
 			try {
-				const res = await this.$test.post('/m1/4595220-4244770-default/tenant/function/distribute', {
+				// const res = await this.$test.post('/m1/4595220-4244770-default/tenant/function/distribute', {
+				const res = await this.$http.post('/tenant/function/distribute', {
 					tenantId: this.tenant.id,
 					functions: this.authorizedFunctions
 				});

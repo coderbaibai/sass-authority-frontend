@@ -30,22 +30,21 @@ export default {
     },
     methods: {
         async search() {
-            try {
-                console.log('搜索参数:', { name: this.name, state: this.state });
-                this.$test.get("/m1/4595220-4244770-default/tenant/search", {
-                    params: {
-                        name: this.name,
-                        state: this.state
-                    }
-                });
-                .then((res) => {
-                    console.log(res.data)
-                    this.tenants = res.data.data;
-                })
-                .catch((error) => {
-                    console.error('Failed', error);
-                });
-            }
+            console.log('搜索参数:', { name: this.name, state: this.state });
+            // this.$test.get("/m1/4595220-4244770-default/tenant/search", {
+            this.$http.get("/tenant/search", {
+                params: {
+                    name: this.name,
+                    state: this.state
+                }
+            })
+            .then((res) => {
+                console.log(res.data);
+                this.tenants = res.data.data;
+            })
+            .catch((error) => {
+                console.error('Failed', error);
+            });
         }
     }
 };
