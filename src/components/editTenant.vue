@@ -20,7 +20,8 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="租户类型">
-                <el-select v-model="newTenant.type" placeholder="请选择类型">
+                <el-select v-model="editTenantData.type" placeholder="请选择类型">
+                  <!-- <el-option v-for="item in tenantTypes" :key="item.value" :label="item.label" :value="item.value"></el-option> -->
                   <el-option label="平台租户" value="0"></el-option>
                   <el-option label="普通租户" value="1"></el-option>
                 </el-select>
@@ -28,9 +29,9 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="租户状态">
-                <el-select v-model="newTenant.state" placeholder="请选择状态">
-                  <el-option label="启用" value="1"></el-option>
-                  <el-option label="禁用" value="0"></el-option>
+                <el-select v-model="editTenantData.state" placeholder="请选择状态">
+                  <el-option label="启用" value="enabled"></el-option>
+                  <el-option label="禁用" value="disabled"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -64,6 +65,7 @@
   
 <script>
 import axios from 'axios';
+import { log } from 'console';
 export default {
     props: {
         tenant: {
@@ -85,6 +87,14 @@ export default {
                 address: '',
                 description: ''
             }
+            // tenantTypes: [
+            //     { label: '平台租户', value: '0' },
+            //     { label: '普通租户', value: '1' }
+            // ],
+            // tenantStates: [
+            //     { label: '启用', value: '1' },
+            //     { label: '禁用', value: '0' }
+            // ]
         };
     },
     watch: {
@@ -92,20 +102,19 @@ export default {
             immediate: true,
             handler(newVal) {
                 if (newVal) {
-                    this.editTenantData = { 
-                      ...newVal 
-                    };
+                    this.editTenantData = { ...newVal };
                 }
             }
         }
     },
     methods: {
         openEdit() {
+          console.log("Edit");
+          log(this.tenant);
             if (this.tenant) {
-                this.editTenantData = { 
-                  ...this.tenant 
-                };
+                this.editTenantData = { ...this.tenant };
                 this.editDialogVisible = true;
+                console.log(editDialogVisible);
             } else {
                 this.$message.error('请先选择一个租户');
             }
@@ -124,7 +133,7 @@ export default {
             };
         },
         async editTenantSave() {
-            this.$test.put("/m1/4595220-4244770-default/tenant/update", this.editTenantData, {
+            this.$http.put("/tenant/update", this.editTenantData, {
                 headers: {
                 'Content-Type': 'application/json'
             }})
@@ -145,6 +154,7 @@ export default {
             });
         }
     }
+  }
 };
 </script>
   

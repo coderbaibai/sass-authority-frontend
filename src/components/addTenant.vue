@@ -98,7 +98,8 @@ export default {
 		},
 		async addTenant() {
 			const tenantData = JSON.parse(JSON.stringify(this.newTenant));
-			this.$test.post("/m1/4595220-4244770-default/tenant/add", tenantData, {
+			// this.$test.post("/m1/4595220-4244770-default/tenant/add", tenantData, {
+			this.$http.post("/tenant/add", tenantData, {
 				headers: {
 				'Content-Type': 'application/json'
 			}})

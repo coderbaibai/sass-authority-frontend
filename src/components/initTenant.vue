@@ -52,7 +52,8 @@ export default {
         },
         async initTenantSave() {
 			const tenantData = JSON.parse(JSON.stringify(this.initTenant));
-			this.$test.post("/m1/4595220-4244770-default/tenant/initialize", tenantData, {
+			// this.$test.post("/m1/4595220-4244770-default/tenant/initialize", tenantData, {
+            this.$http.post("/tenant/initialize", tenantData, {
 				headers: {
 				'Content-Type': 'application/json'
 			}})

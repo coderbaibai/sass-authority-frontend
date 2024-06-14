@@ -43,7 +43,8 @@ export default {
     },
     methods: {
         async getAllTenants() {
-            this.$test.get("/m1/4595220-4244770-default/tenant/all");
+            // this.$test.get("/m1/4595220-4244770-default/tenant/all");
+            this.$http.get("/tenant/all")
             .then((res) => {
 				if (res.data.code === 0) {
 					this.tenants = res.data.data;
