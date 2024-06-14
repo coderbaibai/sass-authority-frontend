@@ -37,14 +37,16 @@ export default {
                         name: this.name,
                         state: this.state
                     }
-                });
+                })
                 .then((res) => {
-                    console.log(res.data)
+                    console.log(res.data);
                     this.tenants = res.data.data;
                 })
                 .catch((error) => {
                     console.error('Failed', error);
                 });
+            } catch (error) {
+                console.error('Unexpected Error', error);
             }
         }
     }

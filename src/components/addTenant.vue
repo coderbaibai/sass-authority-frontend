@@ -21,17 +21,16 @@
 					<el-col :span="12">
 						<el-form-item label="租户类型">
 							<el-select v-model="newTenant.type" placeholder="请选择类型">
-								<el-option label="A"></el-option>
-								<el-option label="B"></el-option>
-								<el-option label="C"></el-option>
+								<el-option label="平台租户" value="0"></el-option>
+								<el-option label="普通租户" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="租户状态">
 							<el-select v-model="newTenant.state" placeholder="请选择状态">
-								<el-option label="启用" value="enabled"></el-option>
-								<el-option label="禁用" value="disabled"></el-option>
+								<el-option label="启用" value="1"></el-option>
+								<el-option label="禁用" value="0"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -72,8 +71,8 @@ export default {
 			newTenant: {
 				code: '',
 				name: '',
-				type: null,
-				state: null,
+				type: '',
+				state: '',
 				email: '',
 				telephone: '',
 				address: '',
@@ -89,8 +88,8 @@ export default {
 			this.newTenant = {
 				code: '',
 				name: '',
-				type: null,
-				state: null,
+				type: '',
+				state: '',
 				email: '',
 				telephone: '',
 				address: '',

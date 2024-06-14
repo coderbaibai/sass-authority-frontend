@@ -8,6 +8,7 @@
           <deleteTenant :tenant="selectedTenant"/>
           <authoTenant :tenant="selectedTenant"/>
           <initTenant />
+          <div class="buttonDiv"><el-button :icon="Refresh" round @click="getAllFunctions">刷新</el-button></div>
         </div>
         <tenantList :tenants="tenants" @selected_tenant="setSelectedTenant" />
       </div>
