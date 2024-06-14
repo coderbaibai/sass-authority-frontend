@@ -32,17 +32,19 @@ export default {
         async search() {
             try {
                 console.log('搜索参数:', { name: this.name, state: this.state });
-                const response = await axios.get('http://127.0.0.1:4523/m1/4595220-4244770-default/tenant/search', {
+                this.$test.get("/m1/4595220-4244770-default/tenant/search", {
                     params: {
                         name: this.name,
                         state: this.state
                     }
                 });
-                console.log(response.data)
-                this.tenants = response.data.data;
-                this.$emit('search-results', response.data.data);
-            } catch (error) {
-                console.error('Failed', error);
+                .then((res) => {
+                    console.log(res.data)
+                    this.tenants = res.data.data;
+                })
+                .catch((error) => {
+                    console.error('Failed', error);
+                });
             }
         }
     }
