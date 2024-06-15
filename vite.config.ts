@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -19,8 +18,8 @@ export default defineConfig({
 		proxy: {
 			'/api':{
 				// target:"http://localhost:50100",
-        // target:"http://10.236.158.11:8081",
-        target:"http://localhost:8081",
+        target:"http://10.236.158.11:8081",
+        // target:"http://localhost:8081",
         // target:"http://10.240.71.33:8081",
         // target:"http://10.236.158.11:8081",
         changeOrigin:true, //支持跨域

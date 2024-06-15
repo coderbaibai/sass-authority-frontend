@@ -8,7 +8,6 @@
           <deleteTenant :tenant="selectedTenant"/>
           <authoTenant :tenant="selectedTenant"/>
           <initTenant />
-          <div class="buttonDiv"><el-button :icon="Refresh" round @click="getAllFunctions">刷新</el-button></div>
         </div>
         <tenantList :tenants="tenants" @selected_tenant="setSelectedTenant" />
       </div>
@@ -43,6 +42,7 @@ export default {
     },
     methods: {
         async getAllTenants() {
+            console.log("all");
             // this.$test.get("/m1/4595220-4244770-default/tenant/all");
             this.$http.get("/tenant/all")
             .then((res) => {
@@ -64,6 +64,7 @@ export default {
         }
     },
     mounted() {
+        console.log("Component mounted");
         this.getAllTenants();
     }
 };

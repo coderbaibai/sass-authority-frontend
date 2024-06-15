@@ -21,3 +21,5 @@ app.config.globalProperties.$test = axios.create({
     baseURL: '/test'
 })
 app.mount('#app')
+
+

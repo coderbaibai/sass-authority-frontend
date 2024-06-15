@@ -15,7 +15,7 @@
                 <el-button type="primary" @click="search">查询</el-button>
             </el-form-item>
         </el-form>
-	</div>
+    </div>
 </template>
 
 <script>
@@ -32,23 +32,18 @@ export default {
         async search() {
             try {
                 console.log('搜索参数:', { name: this.name, state: this.state });
-                this.$test.get("/m1/4595220-4244770-default/tenant/search", {
+                const res = await this.$test.get("/tenant/search", {
                     params: {
                         name: this.name,
                         state: this.state
                     }
                 });
-                .then((res) => {
-                    console.log(res.data)
-                    this.tenants = res.data.data;
-                })
-                .catch((error) => {
-                    console.error('Failed', error);
-                });
+                console.log(res.data);
+                this.tenants = res.data.data;
+            } catch (error) {
+                console.error('Failed', error);
             }
         }
     }
 };
-
-
 </script>
