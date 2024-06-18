@@ -139,6 +139,7 @@ watch(curIndex ,(newVal,oldVal)=>{
     height: 95%;
     width: 100%;
     display: flex;
+    background-color: rgb(210, 212, 240);
 }
 #navigate{
     position: relative;

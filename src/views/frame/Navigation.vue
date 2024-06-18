@@ -52,6 +52,7 @@ onMounted(() => {
         }
         else{
             ElMessage.error(res.data.msg)
+            instance?.appContext.config.globalProperties.$router.push("/login")
         }
     })
     .catch(()=>{

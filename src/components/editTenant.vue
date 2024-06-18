@@ -65,7 +65,6 @@
   
 <script>
 import axios from 'axios';
-import { log } from 'console';
 export default {
     props: {
         tenant: {
@@ -109,12 +108,9 @@ export default {
     },
     methods: {
         openEdit() {
-          console.log("Edit");
-          log(this.tenant);
             if (this.tenant) {
                 this.editTenantData = { ...this.tenant };
                 this.editDialogVisible = true;
-                console.log(editDialogVisible);
             } else {
                 this.$message.error('请先选择一个租户');
             }
