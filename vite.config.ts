@@ -15,13 +15,13 @@ export default defineConfig({
   },
   server:{
     host:'0.0.0.0',
-    port:'5173',
+    port:5173,
 		proxy: {
 			'/api':{
 				// target:"http://localhost:50100",
-        // target:"http://10.236.158.11:8081",
+        target:"http://10.236.158.11:8081",
         // target:"http://localhost:8081",
-        target:"http://10.240.71.33:8081",
+        // target:"http://10.240.71.33:8081",
         changeOrigin:true, //支持跨域
         rewrite:(path) => path.replace(/^\/api/, "")//重写路径,替换/api
 			},

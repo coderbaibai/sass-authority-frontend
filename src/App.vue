@@ -1,5 +1,4 @@
 
-
 <template>
   <div id="main">
     <router-view>
@@ -13,10 +12,10 @@ const instance = getCurrentInstance();
 
 onMounted(()=>{
   if(!instance?.appContext.config.globalProperties.$cookies.get("SESSION")){
-    instance?.appContext.config.globalProperties.$router.push("/login")
+    instance?.appContext.config.globalProperties.$router.push("/dashboard")
   }
   else{
-    instance?.appContext.config.globalProperties.$router.push("/dashboard")
+    instance?.appContext.config.globalProperties.$router.push("/login")
   }
 })
 </script>

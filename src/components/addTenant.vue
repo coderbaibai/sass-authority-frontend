@@ -21,9 +21,8 @@
 					<el-col :span="12">
 						<el-form-item label="租户类型">
 							<el-select v-model="newTenant.type" placeholder="请选择类型">
-								<el-option label="A"></el-option>
-								<el-option label="B"></el-option>
-								<el-option label="C"></el-option>
+								<el-option label="普通用户" value="0"></el-option>
+								<el-option label="平台用户" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -99,7 +98,7 @@ export default {
 		},
 		async addTenant() {
 			const tenantData = JSON.parse(JSON.stringify(this.newTenant));
-			this.$test.post("/m1/4595220-4244770-default/tenant/add", tenantData, {
+			this.$http.post("/tenant/add", tenantData, {
 				headers: {
 				'Content-Type': 'application/json'
 			}})
