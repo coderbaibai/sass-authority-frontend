@@ -1,18 +1,20 @@
 <template>
     <div class="container">
-      <div class="tenantContainer">
-        <tenantSearchBar @search-results="handleSearchResults" />
-        <div class="function_bar">
-          <addTenant/>
-          <editTenant :tenant="selectedTenant"/>
-          <deleteTenant :tenant="selectedTenant"/>
-          <authoTenant :tenant="selectedTenant"/>
-          <initTenant />
+        <div class="tenantContainer">
+            <tenantSearchBar ref="tenantSearchBar" @search-results="handleSearchResults" />
+            <div class="function_bar">
+                <addTenant />
+                <editTenant :tenant="selectedTenant" />
+                <deleteTenant :tenant="selectedTenant" />
+                <authoTenant :tenant="selectedTenant" />
+                <initTenant :tenant="selectedTenant" />
+                <refreshTenant @refresh-tenant="handleRefresh" />
+            </div>
+            <tenantList :tenants="tenants" @selected_tenant="setSelectedTenant" />
         </div>
-        <tenantList :tenants="tenants" @selected_tenant="setSelectedTenant" />
-      </div>
     </div>
 </template>
+  
   
 <script>
 import axios from 'axios';
@@ -23,46 +25,53 @@ import authoTenant from "../../components/authoTenant.vue";
 import deleteTenant from "../../components/deleteTenant.vue";
 import initTenant from "../../components/initTenant.vue";
 import tenantList from "../../components/tenantList.vue";
+import refreshTenant from "../../components/refreshTenant.vue";
+
 
 export default {
-    data() {
-        return {
-          tenants: [],
-          selectedTenant: null
-        };
-    },
-    components: {
-        tenantSearchBar,
-        addTenant,
-        editTenant,
-        authoTenant,
-        deleteTenant,
-        initTenant,
-        tenantList
-    },
-    methods: {
-        async getAllTenants() {
-            try {
-                const res = await this.$http.get("/tenant/all");
-                if (res.data.code === 0) {
-                    this.tenants = res.data.data;
-                } else {
-                    console.error('读取失败', res.data.msg);
-                }
-            } catch(error) {
-                console.error('无法读取', error);
-            };
-        },
-        handleSearchResults(results) {
-            this.tenants = results;
-        },
-        setSelectedTenant(tenant) {
-            this.selectedTenant = tenant;
+  data() {
+    return {
+      tenants: [],
+      selectedTenant: null
+    };
+  },
+  components: {
+    tenantSearchBar,
+    addTenant,
+    editTenant,
+    authoTenant,
+    deleteTenant,
+    initTenant,
+    refreshTenant,
+    tenantList
+  },
+  methods: {
+    async getAllTenants() {
+      try {
+        const res = await this.$http.get("/tenant/all");
+        if (res.data.code === 0) {
+          this.tenants = res.data.data;
+        } else {
+          console.error('读取失败', res.data.msg);
         }
+      } catch (error) {
+        console.error('无法读取', error);
+      }
     },
-    mounted() {
-        this.getAllTenants();
+    handleSearchResults(results) {
+        this.tenants = results;
+    },
+    setSelectedTenant(tenant) {
+      this.selectedTenant = tenant;
+    },
+    handleRefresh() {
+      this.getAllTenants();
+      this.$refs.tenantSearchBar.reset();
     }
+  },
+  mounted() {
+    this.getAllTenants();
+  }
 };
 </script>
   

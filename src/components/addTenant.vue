@@ -29,8 +29,8 @@
 					<el-col :span="12">
 						<el-form-item label="租户状态">
 							<el-select v-model="newTenant.state" placeholder="请选择状态">
-								<el-option label="启用" value="enabled"></el-option>
-								<el-option label="禁用" value="disabled"></el-option>
+								<el-option label="启用" value="1"></el-option>
+								<el-option label="禁用" value="0"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>

@@ -130,6 +130,7 @@ watch(curIndex ,(newVal,oldVal)=>{
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #fff;
 }
 #header{
     width: 100%;
@@ -139,6 +140,7 @@ watch(curIndex ,(newVal,oldVal)=>{
     height: 95%;
     width: 100%;
     display: flex;
+    background-color: #fff;
 }
 #navigate{
     position: relative;
@@ -150,6 +152,7 @@ watch(curIndex ,(newVal,oldVal)=>{
     height: 100%;
     flex-grow: 1;
     position: relative;
+    background-color: #fff;
 }
 #tabs{
     height: 100%;
@@ -160,5 +163,6 @@ watch(curIndex ,(newVal,oldVal)=>{
     width: 85%;
     height: 88%;
     overflow-y: scroll;
+    background-color: #fff;
 }
 </style>

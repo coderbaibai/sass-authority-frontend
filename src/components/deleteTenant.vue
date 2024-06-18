@@ -18,7 +18,7 @@ export default {
                 return;
             }
             try {
-                const res = await this.$test.get("/m1/4595220-4244770-default/tenant/business", {
+                const res = await this.$http.get("/tenant/business", {
                     params: {
                         tenantId: this.tenant.id
                     }
@@ -40,7 +40,7 @@ export default {
             }
         },
         async deleteTenant() {
-            this.$test.delete("/m1/4595220-4244770-default/tenant/delete", {
+            this.$http.delete("/tenant/delete", {
                 params: {
                     tenantId: this.tenant.id
                 }

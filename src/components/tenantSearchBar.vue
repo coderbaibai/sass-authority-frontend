@@ -6,7 +6,6 @@
             </el-form-item>
             <el-form-item label="状态">
                 <el-select v-model="state" placeholder="请选择状态" style="width: 200px;">
-                    <el-option label="全部" value=""></el-option>
                     <el-option label="启用" value="1"></el-option>
                     <el-option label="禁用" value="0"></el-option>
                 </el-select>
@@ -20,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -30,36 +30,27 @@ export default {
     },
     methods: {
         async search() {
-			this.$http.get("/tenant/search", {
-                params: {
-                    name: this.name,
-                    state: this.state
+            try {
+                const res = await this.$http.get("/tenant/search", {
+                    params: {
+                        name: this.name,
+                        state: this.state
+                    }
+                });
+                if (res.data.code === 0) {
+                    this.$emit('search-results', res.data.data);
+                    this.$message.success('搜索成功');
+                } else {
+                    this.$message.error('搜索失败');
                 }
-            })
-			.then((res) => {
-				this.tenants = response.data.data;
-			})
-			.catch((error) => {
-				console.error('Failed', error);
-			});
+            } catch (error) {
+                this.$message.error('搜索错误');
+            }
+        },
+        reset() {
+            this.name = '';
+            this.state = '';
         }
-            // try {
-            //     console.log('搜索参数:', { name: this.name, state: this.state });
-
-            //     const response = await axios.get('/tenant/search', {
-            //         params: {
-            //             name: this.name,
-            //             state: this.state
-            //         }
-            //     });
-            //     console.log(response.data)
-            //     this.tenants = response.data.data;
-            //     this.$emit('search-results', response.data.data);
-            // } catch (error) {
-            //     console.error('Failed', error);
-            // }
     }
-};
-
-
+}
 </script>
