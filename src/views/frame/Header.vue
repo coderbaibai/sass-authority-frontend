@@ -3,20 +3,20 @@
         <div id="title">共 享 快 件 物 流 服 务</div>
         <div id="detail">
             <div class="but">
-                <Lock style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <Lock style="width: 1.5em; height: 1.5em;position:relative;"/>
                 <div class="butInner">{{userInfo.tenantName}}</div>  
             </div>
             <div class="but">
-                <Key style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <Key style="width: 1.5em; height: 1.5em;position:relative;"/>
                 <div class="butInner">{{userInfo.roleNames[0]}}</div>  
             </div>
             <div class="but">
-                <UserFilled style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
+                <UserFilled style="width: 1.5em; height: 1.5em;position:relative;"/>
                 <div class="butInner">{{userInfo.userName}}</div>  
             </div>
             <div class="but">
-                <SwitchButton style="width: 1.5em; height: 1.5em;position:relative;bottom:5px;"/>
-                <div class="butInner" @click="handleExit()">退出logout</div>  
+                <SwitchButton style="width: 1.5em; height: 1.5em;position:relative;"/>
+                <div class="butInner" @click="handleExit()">退出</div>  
             </div>
         </div>
     </div>
@@ -65,6 +65,8 @@ const handleExit = ()=>{
 </script>
 
 <style scoped>
+
+
 #main{
     width: 100%;
     height: 100%;
@@ -96,7 +98,6 @@ const handleExit = ()=>{
     align-items: center;
     white-space: nowrap;
     position:relative;
-    top:5px
 }
 .butInner{
     width: 80%;
