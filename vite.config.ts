@@ -18,10 +18,9 @@ export default defineConfig({
     port:5173,
 		proxy: {
 			'/api':{
-				// target:"http://localhost:50100",
         // target:"http://10.236.60.40:8081",
-        target:"http://10.240.71.33:8081",
-        // target:"http://localhost:8081",
+        // target:"http://10.240.71.33:8081",
+        target:"http://localhost:8081",
         changeOrigin:true,
         rewrite:(path) => path.replace(/^\/api/, "")
 			},
