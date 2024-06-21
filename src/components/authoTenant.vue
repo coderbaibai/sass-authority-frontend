@@ -112,10 +112,7 @@ export default {
 					}
 				});
 				if (res.data.code === 0) {
-					this.authorizedFunctions = this.mergeFunctions(res.data.data, this.functionList);
-					this.$nextTick(() => {
-						this.$refs.functionTree.setCheckedKeys(this.authorizedFunctionIds);
-					});
+					this.authorizedFunctions = res.data.data;
 				} else {
 					this.$message.error('加载已授权功能失败');
 				}
@@ -123,40 +120,42 @@ export default {
 				this.$message.error('加载已授权功能出错，请重试');
 			}
 		},
-		mergeFunctions(authorized, all) {
-			const merge = (authorized, all) => {
-			const map = new Map();
-			all.forEach(func => {
-				map.set(func.id, { ...func });
-			});
-
-			const result = [];
-			authorized.forEach(authFunc => {
-				if (map.has(authFunc.id)) {
-					const node = map.get(authFunc.id);
-					result.push(node);
-					if (node.children && node.children.length > 0) {
-						node.children = merge(authFunc.children || [], node.children);
-					}
-				}
-			});
-			return result;
-			};
-			return merge(authorized, all);
-		},
 		getAuthorizedFunctionIds(functions) {
 			let ids = [];
 			functions.forEach(func => {
-			ids.push(func.id);
-			if (func.children && func.children.length > 0) {
-				ids = ids.concat(this.getAuthorizedFunctionIds(func.children));
-			}
+				ids.push(func.id);
+				if (func.children && func.children.length > 0) {
+					ids = ids.concat(this.getAuthorizedFunctionIds(func.children));
+				}
 			});
+			console.log(ids);
 			return ids;
+		},
+		async saveAutho() {
+			try {
+				const res = await this.$http.post('/tenant/function/distribute', {
+					tenantId: this.tenant.id,
+					functionIds: this.authorizedFunctionIds
+				});
+				console.log(res);
+				if (res.data.code === 0) {
+					this.$message({
+						type: 'success',
+						message: '授权成功'
+					});
+					this.$emit('tenant-authoed');
+					this.authoDialogVisible = false;
+					this.authorizedFunctions = [];
+				} else {
+					this.$message.error('授权失败，请重试');
+				}
+				} catch (error) {
+					this.$message.error('授权出错，请重试');
+				}
 		},
 		handleCheckChange(node, checked) {
 			if (checked) {
-			this.	addAuthorizedFunction(node);
+				this.addAuthorizedFunction(node);
 			} else {
 				this.removeAuthorizedFunction(node);
 				this.removeChildren(node);
@@ -189,28 +188,7 @@ export default {
 		removeAuthorizedFunction(node) {
 			this.authorizedFunctions = this.authorizedFunctions.filter(func => func.id !== node.id);
 		},
-		async saveAutho() {
-			try {
-			const functionsToAuthorize = this.authorizedFunctions.map(func => ({ id: func.id }));
-			const res = await this.$http.post('/tenant/function/distribute', {
-				tenantId: this.tenant.id,
-				functions: functionsToAuthorize
-			});
-			if (res.data.code === 0) {
-				this.$message({
-					type: 'success',
-					message: '授权成功'
-				});
-				this.$emit('tenant-authoed');
-				this.authoDialogVisible = false;
-				this.authorizedFunctions = [];
-			} else {
-				this.$message.error('授权失败，请重试');
-			}
-			} catch (error) {
-				this.$message.error('授权出错，请重试');
-			}
-		},
+		
 		findParentNode(node) {
 			const findNodeRecursively = (currentNode, targetNode) => {
 			if (!currentNode.children) return null;
