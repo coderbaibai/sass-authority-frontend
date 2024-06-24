@@ -20,7 +20,7 @@ export default defineConfig({
 			'/api':{
         // target:"http://10.236.60.40:8081",
         // target:"http://10.240.71.33:8081",
-        target:"http://localhost:8081",
+        target:"http://10.241.122.174:8081",
         changeOrigin:true,
         rewrite:(path) => path.replace(/^\/api/, "")
 			},

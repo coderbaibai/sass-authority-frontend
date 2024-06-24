@@ -53,8 +53,9 @@ export default {
       authoDialogVisible: false,
       functionList: [], 
       authorizedFunctions: [],
-	  authorizedFunctionIds: [],
+	    authorizedFunctionIds: [],
       checkedFunctionIds: [],
+      checkedFunctionLeaves:[],
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -73,6 +74,16 @@ export default {
     }
   },
   methods: {
+    getLeaf(funcNode){
+      if(!funcNode.children || funcNode.children.length == 0){
+        this.checkedFunctionLeaves.push(funcNode.id)
+      }
+      else{
+        for(let i=0;i<funcNode.children.length;i++){
+          this.getLeaf(funcNode.children[i])
+        }
+      }
+    },
     openAutho() {
       if (this.tenant) {
         this.authoDialogVisible = true; 
@@ -104,12 +115,17 @@ export default {
         });
         if (res.data.code === 0) {
           this.authorizedFunctions = res.data.data;
-          this.authorizedFunctionIds = this.authorizedFunctions.map(func => func.id);
-          this.checkedFunctionIds = [...this.authorizedFunctionIds]; 
+          // this.authorizedFunctionIds = this.authorizedFunctions.map(func => func.id);
+          // this.authorizedFunctions.map(this.getLeaf);
+          for(let i=0;i<this.authorizedFunctions.length;i++)
+            this.getLeaf(this.authorizedFunctions[i])
+          this.authorizedFunctionIds = this.checkedFunctionLeaves
+          this.checkedFunctionIds = [...this.authorizedFunctionIds];
         } else {
           this.$message.error('加载已授权功能失败'); 
         }
       } catch (error) {
+        console.log(error)
         this.$message.error('加载已授权功能出错，请重试'); 
       }
     },
