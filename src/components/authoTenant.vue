@@ -117,6 +117,8 @@ export default {
           this.authorizedFunctions = res.data.data;
           // this.authorizedFunctionIds = this.authorizedFunctions.map(func => func.id);
           // this.authorizedFunctions.map(this.getLeaf);
+          this.authorizedFunctionIds = []
+          this.checkedFunctionLeaves = []
           for(let i=0;i<this.authorizedFunctions.length;i++)
             this.getLeaf(this.authorizedFunctions[i])
           this.authorizedFunctionIds = this.checkedFunctionLeaves
