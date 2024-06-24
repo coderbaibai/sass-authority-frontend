@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div id="title">共 享 快 件 物 流 服 务</div>
+        <div id="title">SaaS 平台</div>
         <div id="detail">
             <div class="but">
                 <Lock style="width: 1.5em; height: 1.5em;position:relative;"/>
